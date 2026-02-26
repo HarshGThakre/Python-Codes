@@ -1,0 +1,64 @@
+###Lab Assignment 5th
+import numpy as np
+
+# 1. Prompt the user to enter a series of integers, separated by either commas or spaces
+user_input = input("Enter a series of integers, separated by commas or spaces: ")
+
+# 2. Split the user_input string into individual string elements
+# Replace commas with spaces and then split by spaces to handle both separators
+string_elements = user_input.replace(',', ' ').split()
+
+# 3. Convert each string element to an integer and store them in a list
+# Use a try-except block to handle potential non-integer inputs gracefully
+integers_list = []
+for s in string_elements:
+    try:
+        integers_list.append(int(s))
+    except ValueError:
+        print(f"Warning: Skipping non-integer input '{s}'")
+
+# 4. Convert the list of integers into a tuple
+result_tuple = tuple(integers_list)
+
+# 5. Print the resulting tuple
+print(f"The created tuple is: {result_tuple}")
+
+
+###Lab Assignment 6th
+import numpy as np
+
+# 1. Prompt the user to enter a string and store it in a variable
+user_string = input("Enter a string: ")
+
+# 2. Initialize four counter variables to zero
+vowels_count = 0
+consonants_count = 0
+spaces_count = 0
+lowercase_count = 0
+
+# 3. Define a string containing all vowels (both lowercase and uppercase)
+vowels = "aeiouAEIOU"
+
+# 4. Iterate through each character in the user_string
+for char in user_string:
+    # 5a. Check if the character is an alphabet
+    if char.isalpha():
+        # 5ai. Check if the character (converted to lowercase) is a vowel
+        if char in vowels:
+            vowels_count += 1
+        # 5aii. Otherwise, it's a consonant
+        else:
+            consonants_count += 1
+    # 5b. Check if the character is a space
+    if char.isspace():
+        spaces_count += 1
+    # 5c. Check if the character is a lowercase letter
+    if char.islower():
+        lowercase_count += 1
+
+# 6. Print the final counts
+print(f"\n--- String Statistics ---")
+print(f"Number of vowels: {vowels_count}")
+print(f"Number of consonants: {consonants_count}")
+print(f"Number of spaces: {spaces_count}")
+print(f"Number of lowercase letters: {lowercase_count}")
