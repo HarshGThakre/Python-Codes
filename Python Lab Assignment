@@ -1,4 +1,4 @@
-###Lab Assignment 5th
+###Lab Assignment 5th.
 import numpy as np
 
 # 1. Prompt the user to enter a series of integers, separated by either commas or spaces.
