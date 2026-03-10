@@ -62,3 +62,58 @@ print(f"Number of vowels: {vowels_count}")
 print(f"Number of consonants: {consonants_count}")
 print(f"Number of spaces: {spaces_count}")
 print(f"Number of lowercase letters: {lowercase_count}")
+
+###Lab Assignment 8th
+1.)
+def convert_to_uppercase(source_file, target_file):
+    try:
+        # Open source file for reading and target file for writing
+        with open(source_file, 'r') as infile, open(target_file, 'w') as outfile:
+            # Read the entire content
+            content = infile.read()
+            # Convert to uppercase and write to the new file
+            outfile.write(content.upper())
+        
+        print(f"Content from '{source_file}' has been successfully copied to '{target_file}' in uppercase.")
+    
+    except FileNotFoundError:
+        print(f"Error: The file '{source_file}' was not found.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+# Example usage:
+convert_to_uppercase('input.txt', 'output.txt')
+
+2.)
+def copy_without_comments():
+    # 1. Ask the user for source and destination file names
+    source_file = input("Enter the source Python file name (e.g., source.py): ").strip()
+    dest_file = input("Enter the destination file name (e.g., dest.py): ").strip()
+
+    try:
+        # 2. Open source for reading and destination for writing
+        with open(source_file, 'r') as src, open(dest_file, 'w') as dst:
+            for line in src:
+                # 3. Strip whitespace and skip lines starting with '#'
+                # This excludes full-line comments
+                if not line.lstrip().startswith('#'):
+                    dst.write(line)
+        
+        print(f"\nSuccessfully copied {source_file} to {dest_file} (excluding comments).\n")
+
+        # 4. Print contents of both files for verification
+        print("--- Content of Source File ---")
+        with open(source_file, 'r') as src:
+            print(src.read())
+
+        print("\n--- Content of Destination File ---")
+        with open(dest_file, 'r') as dst:
+            print(dst.read())
+
+    except FileNotFoundError:
+        print(f"Error: The file '{source_file}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    copy_without_comments()
