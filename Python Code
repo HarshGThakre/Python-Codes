@@ -61,3 +61,243 @@ if matrix_A.shape[1] == matrix_B.shape[0]:
     print(product_matrix)
 else:
     print("\nError: Cannot multiply matrices. Number of columns in Matrix A must be equal to number of rows in Matrix B.")
+
+### Lab Assignment 10th
+1.)
+import pandas as pd
+
+# 1. Load the dataset
+# Assuming 'books.csv' has columns: title, author, edition, year, publisher, price
+try:
+    df = pd.read_csv('books.csv')
+    
+    # a) Print the complete report in a tabular form
+    print("--- Complete Book Report ---")
+    print(df.to_string(index=False))
+    print("\n")
+
+    # b) Print list of books of a given author
+    target_author = input("Enter author name to search: ")
+    author_books = df[df['author'].str.contains(target_author, case=False)]
+    print(f"Books by {target_author}:")
+    print(author_books[['title', 'edition', 'price']])
+    print("\n")
+
+    # c) Print list of books of a given publishing house
+    target_pub = input("Enter publishing house to search: ")
+    pub_books = df[df['publisher'].str.contains(target_pub, case=False)]
+    print(f"Books from {target_pub}:")
+    print(pub_books[['title', 'author', 'year']])
+    print("\n")
+
+    # d) Print titles of cheapest & costliest book
+    cheapest = df.loc[df['price'].idxmin(), 'title']
+    costliest = df.loc[df['price'].idxmax(), 'title']
+    print(f"Cheapest Book: {cheapest}")
+    print(f"Costliest Book: {costliest}")
+    print("\n")
+
+    # e) Print the list by sorting based on year of publication
+    sorted_df = df.sort_values(by='year')
+    print("--- Books Sorted by Publication Year ---")
+    print(sorted_df[['year', 'title', 'author']])
+
+except FileNotFoundError:
+    print("Error: 'books.csv' file not found. Please ensure the file exists.")
+
+2.)
+import pandas as pd
+
+# Creating the initial data for 5 states
+data = {
+    'State': ['Maharashtra', 'Texas', 'Bavaria', 'Ontario', 'Queensland'],
+    'Area': [307713, 695662, 70550, 1076395, 1853000], # Area in sq km
+    'Population': [112374333, 29145505, 13140183, 14223942, 5176186]
+}
+
+df_states = pd.DataFrame(data)
+
+# a) Print the complete information of states
+print("--- Complete State Information ---")
+print(df_states)
+print("\n")
+
+# b) State with the largest Area
+largest_area_state = df_states.loc[df_states['Area'].idxmax(), 'State']
+print(f"State with largest Area: {largest_area_state}")
+
+# c) State with the largest Population
+largest_pop_state = df_states.loc[df_states['Population'].idxmax(), 'State']
+print(f"State with largest Population: {largest_pop_state}")
+
+# d) Calculate population density (Population / Area)
+df_states['Density'] = df_states['Population'] / df_states['Area']
+print("\n--- Table with Population Density ---")
+print(df_states)
+
+# e) State with the highest population density
+highest_density_state = df_states.loc[df_states['Density'].idxmax(), 'State']
+print(f"\nState with highest Population Density: {highest_density_state}")
+
+
+###Lab Assignment 11th.
+1.)
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Creating sample sales data
+data = {
+    'month_number': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'facecream': [2500, 2630, 2140, 3400, 3600, 2760, 2980, 3700, 3540, 1990, 2340, 2900],
+    'facewash': [1500, 1200, 1340, 1130, 1740, 1555, 1120, 1400, 1780, 1890, 2100, 1760],
+    'toothpaste': [5200, 5100, 4550, 5870, 4560, 4890, 4780, 5860, 6100, 8300, 7300, 7100],
+    'bathingsoap': [9200, 6100, 9550, 8870, 7760, 7490, 8980, 9960, 8100, 10300, 13300, 14400],
+    'shampoo': [1200, 2100, 3550, 1870, 1560, 1890, 1780, 2860, 2100, 2300, 2400, 1800],
+    'moisturizer': [1500, 1200, 1340, 1130, 1740, 1555, 1120, 1400, 1780, 1890, 2100, 1760],
+    'total_profit': [211000, 183300, 224700, 222700, 209600, 201400, 295500, 361400, 234000, 266700, 412800, 300200]
+}
+df = pd.DataFrame(data)
+
+# a) Line Plot for Total Profit
+plt.figure(figsize=(8, 4))
+plt.plot(df['month_number'], df['total_profit'], marker='o', color='b', label='Profit')
+plt.title('Total Profit per Month')
+plt.xlabel('Month Number')
+plt.ylabel('Profit')
+plt.show()
+
+# b) Multiline Plot for all product sales
+plt.figure(figsize=(10, 5))
+for product in ['facecream', 'facewash', 'toothpaste', 'bathingsoap', 'shampoo', 'moisturizer']:
+    plt.plot(df['month_number'], df[product], marker='o', label=f'{product} Sales')
+plt.title('All Product Sales Data')
+plt.legend()
+plt.show()
+
+# c) Bar Chart for Face Cream and Face Wash
+plt.figure(figsize=(8, 4))
+plt.bar(df['month_number'] - 0.2, df['facecream'], width=0.4, label='Face Cream')
+plt.bar(df['month_number'] + 0.2, df['facewash'], width=0.4, label='Face Wash')
+plt.title('Face Cream vs Face Wash Sales')
+plt.legend()
+plt.show()
+
+# d) Pie Chart for Total Sales of each product
+products = ['facecream', 'facewash', 'toothpaste', 'bathingsoap', 'shampoo', 'moisturizer']
+sales_data = [df[p].sum() for p in products]
+plt.figure(figsize=(7, 7))
+plt.pie(sales_data, labels=products, autopct='%1.1f%%')
+plt.title('Total Sales Contribution by Product')
+plt.show()
+
+
+2.)
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Creating sample recruitment data
+recruit_data = {
+    'Company': ['Microsoft', 'Google', 'Amazon', 'IBM', 'Deloitte', 'Capgemini', 'ATOS Origin', 'Amdocs'],
+    'New_Recruits': [450, 500, 600, 350, 400, 380, 200, 320]
+}
+rdf = pd.DataFrame(recruit_data)
+
+# a) Bar Chart
+plt.figure(figsize=(10, 5))
+plt.bar(rdf['Company'], rdf['New_Recruits'], color='skyblue')
+plt.title('New Recruitments by Company')
+plt.xticks(rotation=45)
+plt.show()
+
+# b) & c) Customized Pie Chart
+plt.figure(figsize=(8, 8))
+explode = [0.1 if x == 'Google' else 0 for x in rdf['Company']] # Highlight Google
+plt.pie(rdf['New_Recruits'], labels=rdf['Company'], autopct='%1.1f%%', explode=explode, shadow=True)
+plt.title('Recruitment Distribution (Customized)')
+plt.show()
+
+# d) Doughnut Chart
+plt.figure(figsize=(8, 8))
+plt.pie(rdf['New_Recruits'], labels=rdf['Company'], autopct='%1.1f%%', pctdistance=0.85)
+# Draw a white circle at the center
+centre_circle = plt.Circle((0,0), 0.70, fc='white')
+fig = plt.gcf()
+fig.gca().add_artist(centre_circle)
+plt.title('New Recruitments Doughnut Chart')
+plt.show()
+
+# Comparison: IBM & Amdocs
+comparison_df = rdf[rdf['Company'].isin(['IBM', 'Amdocs'])]
+plt.figure(figsize=(6, 4))
+plt.bar(comparison_df['Company'], comparison_df['New_Recruits'], color=['orange', 'green'])
+plt.title('Recruitment Comparison: IBM vs Amdocs')
+plt.show()
+
+
+### Lab Assignment 12th 
+1.)
+import pandas as pd
+
+# Creating the dataframe from the provided image data
+data = {
+    'carat': [0.23, 0.21, 0.23, 0.29, 0.31],
+    'cut': ['Ideal', 'Premium', 'Good', 'Premium', 'Good'],
+    'color': ['E', 'E', 'E', 'I', 'J'],
+    'clarity': ['SI2', 'SI1', 'VS1', 'VS2', 'SI2'],
+    'depth': [61.5, 59.8, 56.9, 62.4, 63.3],
+    'table': [55.0, 61.0, 65.0, 58.0, 58.0],
+    'price': [326, 326, 327, 334, 335],
+    'x': [3.95, 3.89, 4.05, 4.20, 4.34],
+    'y': [3.98, 3.84, 4.07, 4.23, 4.35],
+    'z': [2.43, 2.31, 2.31, 2.63, 2.75]
+}
+
+df = pd.DataFrame(data)
+
+# i) Calculate the mean of price for each cut
+mean_price_per_cut = df.groupby('cut')['price'].mean()
+print("--- Mean Price per Cut ---")
+print(mean_price_per_cut)
+
+# ii) Print count, minimum, and maximum price for each cut
+stats_per_cut = df.groupby('cut')['price'].agg(['count', 'min', 'max'])
+print("\n--- Count, Min, and Max Price per Cut ---")
+print(stats_per_cut)
+
+# iii) Calculate and print average value of x, y, and z separately
+averages_xyz = df[['x', 'y', 'z']].mean()
+print("\n--- Average values for x, y, and z ---")
+print(averages_xyz)
+
+
+2.)
+import pandas as pd
+
+# Loading the Excel file
+try:
+    df_emp = pd.read_excel('employee.xlsx')
+    
+    # a) List of employees working for "Automotive" domain
+    automotive_staff = df_emp[df_emp['Department'] == 'Automotive']
+    print("--- Employees in Automotive Domain ---")
+    print(automotive_staff)
+
+    # b) Details of an employee with ID given by user
+    emp_id = input("\nEnter Employee ID to search: ")
+    # Convert input to the correct type (e.g., int) if your IDs are numeric
+    employee_detail = df_emp[df_emp['Employee ID'] == int(emp_id)] 
+    
+    if not employee_detail.empty:
+        print(f"Details for ID {emp_id}:")
+        print(employee_detail)
+    else:
+        print("Employee ID not found.")
+
+    # d) List of all Developers (Assuming "Developer" is in Designation)
+    developers = df_emp[df_emp['Designation'] == 'Developer']
+    print("\n--- List of all Developers ---")
+    print(developers)
+
+except FileNotFoundError:
+    print("Error: The file 'employee.xlsx' was not found.")
+
