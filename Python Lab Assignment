@@ -117,3 +117,138 @@ def copy_without_comments():
 
 if __name__ == "__main__":
     copy_without_comments()
+
+###Lab Assignment 9th
+
+1)
+class Employee:
+    def __init__(self):
+        self.name = ""
+        self.age = 0
+        self.salary = 0.0
+        self.address = ""
+
+    def get_input(self):
+        print(f"\n--- Enter Details ---")
+        self.name = input("Enter Name: ")
+        self.age = int(input("Enter Age: "))
+        self.salary = float(input("Enter Salary: "))
+        self.address = input("Enter Address: ")
+
+    def print_info(self):
+        print(f"{self.name:<15} | {self.age:<5} | {self.salary:<10} | {self.address}")
+
+# Manager inherits from Employee
+class Manager(Employee):
+    pass
+
+# Main program to process 10 managers
+def main():
+    managers_list = []
+    
+    # Process information for 10 managers
+    print("Welcome! Please enter details for 10 Managers.")
+    for i in range(1, 11):
+        print(f"\nManager #{i}:")
+        m = Manager()
+        m.get_input()
+        managers_list.append(m)
+
+    # Displaying the processed information
+    print("\n" + "="*55)
+    print(f"{'Name':<15} | {'Age':<5} | {'Salary':<10} | {'Address'}")
+    print("-" * 55)
+    
+    for manager in managers_list:
+        manager.print_info()
+    print("="*55)
+
+if __name__ == "__main__":
+    main()
+
+2.)
+class Book:
+    def __init__(self, book_id, title, author):
+        self.book_id = book_id
+        self.title = title
+        self.author = author
+        self.is_lent = False
+
+    def __str__(self):
+        status = "Lent" if self.is_lent else "Available"
+        return f"ID: {self.book_id} | Title: {self.title:<20} | Author: {self.author:<15} | Status: {status}"
+
+class Member:
+    def __init__(self, member_id, name):
+        self.member_id = member_id
+        self.name = name
+
+class Library:
+    def __init__(self):
+        self.books = {}
+        self.members = {}
+
+    def add_book(self, book_id, title, author):
+        if book_id not in self.books:
+            self.books[book_id] = Book(book_id, title, author)
+            print(f"Book '{title}' added successfully.")
+        else:
+            print("Error: Book ID already exists.")
+
+    def lend_book(self, book_id):
+        book = self.books.get(book_id)
+        if book and not book.is_lent:
+            book.is_lent = True
+            print(f"Book '{book.title}' has been lent.")
+        elif book:
+            print("Error: Book is already lent out.")
+        else:
+            print("Error: Book not found.")
+
+    def return_book(self, book_id):
+        book = self.books.get(book_id)
+        if book and book.is_lent:
+            book.is_lent = False
+            print(f"Book '{book.title}' returned successfully.")
+        elif book:
+            print("Error: Book was not lent.")
+        else:
+            print("Error: Book not found.")
+
+    def display_books(self):
+        if not self.books:
+            print("The library is currently empty.")
+        else:
+            print("\n--- Library Inventory ---")
+            for book in self.books.values():
+                print(book)
+
+def main():
+    lib = Library()
+    
+    while True:
+        print("\n--- Library Management Menu ---")
+        print("1. Add Book\n2. Lend Book\n3. Return Book\n4. Display Books\n5. Exit")
+        choice = input("Enter your choice (1-5): ")
+
+        if choice == '1':
+            bid = input("Enter Book ID: ")
+            title = input("Enter Title: ")
+            author = input("Enter Author: ")
+            lib.add_book(bid, title, author)
+        elif choice == '2':
+            bid = input("Enter Book ID to lend: ")
+            lib.lend_book(bid)
+        elif choice == '3':
+            bid = input("Enter Book ID to return: ")
+            lib.return_book(bid)
+        elif choice == '4':
+            lib.display_books()
+        elif choice == '5':
+            print("Exiting System. Goodbye!")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+if __name__ == "__main__":
+    main()
